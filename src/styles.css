@@ -1,0 +1,202 @@
+/* Warna dan tema */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff3e0;
+    color: #5d4037;
+    margin: 0; /* Tambahkan margin: 0; untuk menghilangkan margin default */
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto; /* Tambahkan margin 20px untuk jarak dari tepi layar */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #d84315;
+    font-family: 'Pacifico', cursive;
+    margin-bottom: 20px; /* Tambahkan margin-bottom */
+}
+
+/* Form input */
+.input-group {
+    margin-bottom: 20px;
+    display: flex; /* Gunakan flexbox untuk tata letak yang lebih baik */
+    flex-wrap: wrap; /* Memungkinkan elemen untuk dibungkus pada layar kecil */
+}
+
+.input-group input {
+    flex-grow: 1;
+    border-radius: 5px;
+    border: 1px solid #ffab91;
+    padding: 10px;
+    margin-right: 10px; /* Tambahkan margin-right untuk jarak antara input dan button */
+    margin-bottom: 10px; /* Tambahkan margin-bottom untuk layar kecil */
+    width: calc(100% - 110px); /* Sesuaikan lebar input */
+}
+
+.input-group button {
+    background-color: #ff7043;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    white-space: nowrap; /* Mencegah teks tombol dibungkus */
+}
+
+.input-group button:hover {
+    background-color: #f4511e;
+    transform: scale(1.05);
+}
+
+/* Daftar tugas */
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ffccbc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff8e1;
+    transition: transform 0.3s, box-shadow 0.3s;
+    flex-wrap: wrap; /* Memungkinkan elemen untuk dibungkus pada layar kecil */
+}
+
+.list-group-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item div {
+    display: flex;
+    align-items: center;
+}
+
+.list-group-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.list-group-item .task-text {
+    flex-grow: 1;
+    margin: 0 10px;
+    word-break: break-word; /* Mencegah teks panjang merusak tata letak */
+}
+
+.list-group-item .task-text.completed {
+    text-decoration: line-through;
+    color: #a1887f;
+}
+
+.list-group-item .btn-edit,
+.list-group-item .btn-delete {
+    margin-left: 5px;
+    white-space: nowrap; /* Mencegah teks tombol dibungkus */
+    margin-top: 5px; /* Tambahkan margin-top untuk layar kecil */
+}
+
+.list-group-item .btn-edit {
+    background-color: #ffeb3b;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #5d4037;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.list-group-item .btn-edit:hover {
+    background-color: #fdd835;
+    transform: scale(1.05);
+}
+
+.list-group-item .btn-delete {
+    background-color: #e53935;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.list-group-item .btn-delete:hover {
+    background-color: #c62828;
+    transform: scale(1.05);
+}
+
+/* Animasi */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.list-group-item.new-task {
+    animation: slideIn 0.5s ease-out;
+}
+
+.list-group-item.updated-task {
+    animation: bounce 0.5s ease-out;
+}
+
+.list-group-item.deleted-task {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Animasi untuk tombol */
+.input-group button:hover,
+.list-group-item .btn-edit:hover,
+.list-group-item .btn-delete:hover {
+    animation: bounce 0.3s ease-out;
+}
+
+/* Media queries untuk responsif */
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .input-group input {
+        width: 100%; /* Lebar input penuh pada layar kecil */
+        margin-right: 0; /* Hilangkan margin-right */
+    }
+
+    .input-group button {
+        width: 100%; /* Lebar tombol penuh pada layar kecil */
+        margin-top: 10px; /* Tambahkan margin-top */
+    }
+}
