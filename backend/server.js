@@ -8,7 +8,7 @@ const app = express();
 const PORT = 5000;
 const DATA_FILE = path.join(__dirname, 'todos.json');
 
-app.use(cors());
+app.use(cors({ origin: "*", methods: "GET,POST,PUT,DELETE", allowedHeaders: "Content-Type" }));
 app.use(bodyParser.json());
 
 // Helper function to read todos

@@ -1,4 +1,3 @@
-// App.jsx
 import React, { useState, useEffect } from 'react';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -6,6 +5,8 @@ import { Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
+
+const API_URL = "https://backend-todo-app-delta.vercel.app";
 
 const App = () => {
   const [todos, setTodos] = useState([]);
@@ -18,7 +19,7 @@ const App = () => {
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch('http://localhost:5000/todos');
+      const response = await fetch(`${API_URL}/todos`);
       if (!response.ok) {
         throw new Error('Gagal mengambil data todos');
       }
@@ -36,7 +37,7 @@ const App = () => {
 
   const addTodo = async (task) => {
     try {
-      const response = await fetch('http://localhost:5000/todos', {
+      const response = await fetch(`${API_URL}/todos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ task }),
@@ -63,88 +64,87 @@ const App = () => {
   };
 
   const editTodo = async (id, newTask) => {
-      try {
-          console.log('Updating task:', { id, task: newTask });
+    try {
+      console.log('Updating task:', { id, task: newTask });
 
-          const response = await fetch(`http://localhost:5000/todos/${id}/task`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ task: newTask })
-          });
+      const response = await fetch(`${API_URL}/todos/${id}/task`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task: newTask }),
+      });
 
-          if (!response.ok) throw new Error('Gagal memperbarui tugas');
+      if (!response.ok) throw new Error('Gagal memperbarui tugas');
 
-          const updatedTodo = await response.json();
-          console.log('Response from server:', updatedTodo);
+      const updatedTodo = await response.json();
+      console.log('Response from server:', updatedTodo);
 
-          setTodos((prevTodos) =>
-              prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo))
-          );
-          setEditingTodo(null);
-          setShowModal(false);
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo))
+      );
+      setEditingTodo(null);
+      setShowModal(false);
 
-          // Notifikasi sukses
-          Swal.fire({
-              icon: 'success',
-              title: 'Tugas Diperbarui!',
-              text: `Tugas berhasil diubah menjadi "${newTask}".`,
-              showConfirmButton: false,
-              timer: 1500, // Menampilkan notifikasi selama 1.5 detik
-          });
+      Swal.fire({
+        icon: 'success',
+        title: 'Tugas Diperbarui!',
+        text: `Tugas berhasil diubah menjadi "${newTask}".`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
-      } catch (error) {
-          console.error('Error:', error);
-          Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Gagal memperbarui tugas!',
-          });
-      }
+    } catch (error) {
+      console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Gagal memperbarui tugas!',
+      });
+    }
   };
 
   const toggleTodo = async (id) => {
-      try {
-          const todoToToggle = todos.find((todo) => todo.id === id);
-          const updatedStatus = !todoToToggle.completed;
+    try {
+      const todoToToggle = todos.find((todo) => todo.id === id);
+      const updatedStatus = !todoToToggle.completed;
 
-          console.log('Toggling status:', { id, completed: updatedStatus });
+      console.log('Toggling status:', { id, completed: updatedStatus });
 
-          const response = await fetch(`http://localhost:5000/todos/${id}/status`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ completed: updatedStatus })
-          });
+      const response = await fetch(`${API_URL}/todos/${id}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ completed: updatedStatus }),
+      });
 
-          if (!response.ok) throw new Error('Gagal memperbarui status tugas');
+      if (!response.ok) throw new Error('Gagal memperbarui status tugas');
 
-          const updatedTodo = await response.json();
-          console.log('Response from server:', updatedTodo);
+      const updatedTodo = await response.json();
+      console.log('Response from server:', updatedTodo);
 
-          setTodos((prevTodos) =>
-              prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo))
-          );
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) => (todo.id === id ? updatedTodo : todo))
+      );
 
-          Swal.fire({
-              icon: 'info',
-              title: 'Tugas Diperbarui!',
-              text: `"${updatedTodo.task}" ditandai sebagai ${updatedTodo.completed ? 'selesai' : 'belum selesai'}.`,
-              showConfirmButton: false,
-              timer: 1500,
-          });
-      } catch (error) {
-          console.error('Error:', error);
-          Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Gagal memperbarui status tugas!',
-          });
-      }
+      Swal.fire({
+        icon: 'info',
+        title: 'Tugas Diperbarui!',
+        text: `"${updatedTodo.task}" ditandai sebagai ${updatedTodo.completed ? 'selesai' : 'belum selesai'}.`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Gagal memperbarui status tugas!',
+      });
+    }
   };
 
   const deleteTodo = async (id) => {
-    try{
+    try {
       const todoToDelete = todos.find((todo) => todo.id === id);
-      const response = await fetch(`http://localhost:5000/todos/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${API_URL}/todos/${id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error('Gagal menghapus tugas');
       }
